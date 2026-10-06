@@ -45,7 +45,7 @@ function signIn() {
                         },
                         json: true
                     }).then(resS => {
-                        if (resS.status = 1) {
+                        if (resS.status == 1) {
                             console.log(v.title + '签到成功');
                         } else {
                             console.log(v.title + '签到失败');
@@ -56,6 +56,7 @@ function signIn() {
         } else {
             console.log('token已过期');
             request(loginOptions).then(res => {
+                if (!res || !res._key) { console.log('登录失败,接口返回:', JSON.stringify(res)); return; }
                 if (res._key) {
                     token = res._key;
                     console.log('新的token:' + token);
@@ -79,7 +80,7 @@ function signIn() {
                                     },
                                     json: true
                                 }).then(resS => {
-                                    if (resS.status = 1) {
+                                    if (resS.status == 1) {
                                         console.log(v.title + '签到成功');
                                         resolve(v.title + '签到成功')
                                     } else {
@@ -117,7 +118,7 @@ function signIn() {
                         })
                     })
                 }
-            })
+            }).catch(e => console.log('登录请求异常:', e.message));
         }
     });
 }
